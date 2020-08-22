@@ -53,19 +53,56 @@
 
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">
+				<input type="text" name="date" id="date" class="form-control" value="">
+                </div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
+                <table class="table">
+                <thead>
+                    <th>Group Name</th>
+                    <th>Group Type</th>
+                    <th>Account Name</th>
+                    <th>Post text</th>
+                    <th>Time</th>
+                </thead> 
+                <tbody>
+		  	@foreach($bufferPostings as $bufferPosting)
+		  	<tr>
+		  		<td>{{$bufferPosting->socialPostGroup->name}}</td>
+		  		<td>{{$bufferPosting->socialPostGroup->type}}</td>
+		  		<td>{{$bufferPosting->user->name}}</td>
+                <td>{{$bufferPosting->socialPost->text}}</td>
+                <td>{{$bufferPosting->sent_at}}</td>
+		  	</tr>
+		  	@endforeach
+		  </tbody>
+			
+		</table>
+        {{$bufferPostings->links()}}
                 </div>
             </div>
         </div>
+        
     </div>
 </div>
 @endsection
+
+@section('scripts')
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+flatpickr('#date',{
+		enableTime:true,
+		enableSeconds:true
+	});
+</script>
+
+@endsection
+
+@section('css')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endsection
+
+
